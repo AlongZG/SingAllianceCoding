@@ -10,16 +10,16 @@ def plot_asset_weights(df_return: pd.DataFrame, asset_weights: np.array, label: 
 
     Parameters
     ----------
-    df_return : pd.DataFrame
+    - df_return : pd.DataFrame
         A dataframe contains assets return time series.
-    asset_weights : np.array
+    - asset_weights : np.array
         An array contains allocation weights for each asset.
-    label : str
+    - label : str
         A label used for fig title.
 
     Returns
     -------
-    fig : figure
+    - fig : figure
         The pie chart.
     """
 
@@ -42,16 +42,16 @@ def plot_asset_returns(df_return: pd.DataFrame, asset_weights: np.array, label: 
 
     Parameters
     ----------
-    df_return : pd.DataFrame
+    - df_return : pd.DataFrame
         A dataframe contains assets return time series.
-    asset_weights : np.array
+    - asset_weights : np.array
         An array contains allocation weights for each asset.
-    label : str
+    - label : str
         A label used for fig title.
 
     Returns
     -------
-    fig : figure
+    - fig : figure
         The time series plot.
     """
 
@@ -73,16 +73,16 @@ def plot_portfolio_returns(df_return: pd.DataFrame, asset_weights: np.array, lab
 
     Parameters
     ----------
-    df_return : pd.DataFrame
+    - df_return : pd.DataFrame
         A dataframe contains assets return time series.
-    asset_weights : np.array
+    - asset_weights : np.array
         An array contains allocation weights for each asset.
-    label : str
+    - label : str
         A label used for fig title.
 
     Returns
     -------
-    fig : figure
+    - fig : figure
         The time series plot.
     """
 
@@ -108,20 +108,20 @@ def analyze_performance(assets_return: np.array, asset_weights: np.array, assets
 
      Parameters
      ----------
-     assets_return : np.array
+     - assets_return : np.array
          An array includes the mean return of each asset.
-     asset_weights : np.array
+     - asset_weights : np.array
          An array contains allocation weights for each asset.
-     assets_cov : np.array
+     - assets_cov : np.array
          The covariance matrix of assets returns.
 
      Returns
      -------
-     df_performance : pd.DataFrame
+     - df_performance : pd.DataFrame
          The performance analysis result.
      """
 
-    annualizing_factor = 365
+    annualizing_factor = 365 * 24
     return_portfolio = (assets_return @ asset_weights) * annualizing_factor
     volatility_portfolio = np.sqrt((asset_weights @ assets_cov @ asset_weights) * annualizing_factor)
     sharpe_portfolio = return_portfolio / volatility_portfolio
@@ -135,14 +135,14 @@ def plot_asset_weights_table(asset_weights_list: list, label_list: list) -> pd.D
 
      Parameters
      ----------
-     asset_weights_list : list
+     - asset_weights_list : list
          A list includes asset weights from different optimizer.
-     label_list : list
+     - label_list : list
          A list contains the name of optimizers.
 
      Returns
      -------
-     df_asset_weights : pd.DataFrame
+     - df_asset_weights : pd.DataFrame
          The integrated asset weights dataframe.
      """
     df_asset_weights = pd.DataFrame(asset_weights_list, index=label_list).T

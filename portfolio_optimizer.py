@@ -16,28 +16,28 @@ class BaseOptimizer(object):
 
     Attributes
     ----------
-    name : str
+    - name : str
         The name of the class.
-    df_return : pd.DataFrame
+    - df_return : pd.DataFrame
         A dataframe contains assets return time series.
-    assets_return : np.array
+    - assets_return : np.array
         An array includes the mean return of each asset.
-    assets_cov : np.array
+    - assets_cov : np.array
         The covariance matrix of assets returns.
-    r : float
+    - r : float
         The risk-free rate.
-    weights_vector : np.array
+    - weights_vector : np.array
         An array contains allocation weights for each asset.
-    asset_weights : dict
+    - asset_weights : dict
         The optimized allocation weights in dictionary format.
 
     Methods
     -------
-    run()
+    - run()
         Main function to run the optimizer, will raise NotImplementedError if not implement in child class.
-    save_asset_weights(label: str)
+    - save_asset_weights(label: str)
         Save asset weights in dictionary format locally.
-    plot()
+    - plot()
         Plot all the related charts and save them locally.
     """
     def __init__(self, df_return):
@@ -80,7 +80,7 @@ class MarkowitzMeanVarianceOptimizer(BaseOptimizer):
 
     Methods
     -------
-    run()
+    - run()
         Main function to run the MarkowitzMeanVarianceOptimizer.
     """
 
@@ -108,7 +108,7 @@ class RiskParityOptimizer(BaseOptimizer):
 
     Methods
     -------
-    run()
+    - run()
         Main function to run the RiskParityOptimizer.
     """
 

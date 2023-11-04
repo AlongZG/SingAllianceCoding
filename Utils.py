@@ -2,16 +2,16 @@ import os
 
 
 def path_wrapper(path: str) -> str:
-    """Helper function to create direction if not exit.
+    """Helper function to create directory if not exit.
 
     Parameters
     ----------
-    path : str
+    - path : str
         The dir path.
 
     Returns
     -------
-    path : str
+    - path : str
         The dir path.
     """
     os.makedirs(path, exist_ok=True)

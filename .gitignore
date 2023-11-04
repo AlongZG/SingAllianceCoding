@@ -163,3 +163,7 @@ cython_debug/
 data/
 result/
 picture/
+
+# pip env
+Pipfile
+Pipfile.lock

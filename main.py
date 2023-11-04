@@ -12,7 +12,7 @@ def run_data_fetcher() -> pd.DataFrame:
 
     Returns
     -------
-    df_return : pd.DataFrame
+    - df_return : pd.DataFrame
         A dataframe contains assets return time series.
     """
 
@@ -28,14 +28,14 @@ def run_optimizer(df_return: pd.DataFrame) -> Tuple[MarkowitzMeanVarianceOptimiz
 
     Parameters
     ----------
-    df_return : pd.DataFrame
+    - df_return : pd.DataFrame
         A dataframe contains assets return time series.
 
     Returns
     -------
-    mv_optimizer : MarkowitzMeanVarianceOptimizer
+    - mv_optimizer : MarkowitzMeanVarianceOptimizer
         The MarkowitzMeanVarianceOptimizer class.
-    rp_optimizer : RiskParityOptimizer
+    - rp_optimizer : RiskParityOptimizer
         The RiskParityOptimizer class.
     """
 

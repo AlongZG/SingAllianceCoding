@@ -16,19 +16,19 @@ class DataFetcher(object):
 
     Methods
     -------
-    request_data(request_params: dict)
+    - request_data(request_params: dict)
         Sent request to binance api and return response data.
-    format_price_data(df_data: df_data: pd.DataFrame)
+    - format_price_data(df_data: df_data: pd.DataFrame)
         Will format the price data.
-    get_price_data(symbol: str)
+    - get_price_data(symbol: str)
         Get the price data for a certain asset given its symbol.
-    save_price_data(df_price: pd.DataFrame, symbol: str)
+    - save_price_data(df_price: pd.DataFrame, symbol: str)
         Save the asset price data locally.
-    save_return_data(df_return: pd.DataFrame)
+    - save_return_data(df_return: pd.DataFrame)
         Save the assets return data locally.
-    load_return_data()
+    - load_return_data()
         Load the assets return data.
-    run
+    - run
         The main function to run data fetcher, will collect all the data, calculate asset return and save them locally.
     """
 
