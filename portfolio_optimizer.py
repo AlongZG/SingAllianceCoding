@@ -3,7 +3,6 @@ import pandas as pd
 import glog
 import json
 import riskfolio as rp
-import matplotlib.pylab as plt
 from pypfopt.efficient_frontier import EfficientFrontier
 
 from Config import optimizer_config
@@ -12,25 +11,51 @@ from plotter import plot_asset_weights, plot_asset_returns, plot_portfolio_retur
 
 
 class BaseOptimizer(object):
+    """The Base class for optimizer, will transform the data,  provide functions for saving the results locally,
+    and integrate plot functions.
+
+    Attributes
+    ----------
+    name : str
+        The name of the class.
+    df_return : pd.DataFrame
+        A dataframe contains assets return time series.
+    assets_return : np.array
+        An array includes the mean return of each asset.
+    assets_cov : np.array
+        The covariance matrix of assets returns.
+    r : float
+        The risk-free rate.
+    weights_vector : np.array
+        An array contains allocation weights for each asset.
+    asset_weights : dict
+        The optimized allocation weights in dictionary format.
+
+    Methods
+    -------
+    run()
+        Main function to run the optimizer, will raise NotImplementedError if not implement in child class.
+    save_asset_weights(label: str)
+        Save asset weights in dictionary format locally.
+    plot()
+        Plot all the related charts and save them locally.
+    """
     def __init__(self, df_return):
         self.name = self.__class__.__name__
         self.df_return = df_return
-        self.df_return.index = pd.to_datetime(self.df_return.index)
         self.assets_return = df_return.mean().values
         self.assets_cov = df_return.cov().values
-        self.quarterly_conversion_factor = 4
-        self.n_assets = df_return.shape[1]
-        self.assets_ones = np.ones(self.n_assets)
-        self.T = self.df_return.shape[1]
         self.r = 0
-        self.weights_vector = None
+        self.weights_vector = np.array([])
         self.asset_weights = {}
+
+        self.df_return.index = pd.to_datetime(self.df_return.index)
         glog.info(f"Successfully initialize {self.name}")
 
     def run(self):
         raise NotImplementedError("Optimizer must implement main function run")
 
-    def save_asset_weights(self, label: str):
+    def save_asset_weights(self, label: str) -> None:
         dump_dir = path_wrapper(optimizer_config['result_dump_dir'])
         file_path = f"{dump_dir}/{label}_weights.json"
         glog.info(f"Save {label} asset weights to {file_path}")
@@ -50,6 +75,15 @@ class BaseOptimizer(object):
 
 
 class MarkowitzMeanVarianceOptimizer(BaseOptimizer):
+    """The MarkowitzMeanVarianceOptimizer which inherits BaseOptimizer, will calculate the optimal
+    allocation weights based on Markowitz Mean Variance Framework.
+
+    Methods
+    -------
+    run()
+        Main function to run the MarkowitzMeanVarianceOptimizer.
+    """
+
     def __init__(self, df_return):
         self.lamda = 500
         super(MarkowitzMeanVarianceOptimizer, self).__init__(df_return)
@@ -69,6 +103,15 @@ class MarkowitzMeanVarianceOptimizer(BaseOptimizer):
 
 
 class RiskParityOptimizer(BaseOptimizer):
+    """The RiskParityOptimizer which inherits BaseOptimizer, will calculate the optimal
+    allocation weights based on Risk-Parity Theory.
+
+    Methods
+    -------
+    run()
+        Main function to run the RiskParityOptimizer.
+    """
+
     def __init__(self, df_return):
         super(RiskParityOptimizer, self).__init__(df_return)
 

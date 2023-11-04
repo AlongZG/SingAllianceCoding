@@ -1,23 +1,44 @@
 import pandas as pd
 import requests
-from requests.exceptions import HTTPError
 import glog
 import time
 from ratelimit import rate_limited
+from requests.exceptions import HTTPError
+from requests import Response
+from typing import Union
 
 from Config import data_config, start_time, end_time
 from Utils import path_wrapper
 
 
-# TODO doc string
 class DataFetcher(object):
+    """The DataFetcher class, will fetch data from binance future api and save it locally.
+
+    Methods
+    -------
+    request_data(request_params: dict)
+        Sent request to binance api and return response data.
+    format_price_data(df_data: df_data: pd.DataFrame)
+        Will format the price data.
+    get_price_data(symbol: str)
+        Get the price data for a certain asset given its symbol.
+    save_price_data(df_price: pd.DataFrame, symbol: str)
+        Save the asset price data locally.
+    save_return_data(df_return: pd.DataFrame)
+        Save the assets return data locally.
+    load_return_data()
+        Load the assets return data.
+    run
+        The main function to run data fetcher, will collect all the data, calculate asset return and save them locally.
+    """
+
     def __init__(self):
-        pass
+        glog.info(f"Initializing Data Fetcher")
 
     # 10 times/second for one IP at most
     # request the data
     @rate_limited(calls=10, period=1)
-    def request_data(self, request_params: dict):
+    def request_data(self, request_params: dict) -> Union[Response, None]:
         response = requests.get(data_config["binance_api_url"], request_params)
         if response.status_code == 200:
             return response
@@ -26,7 +47,7 @@ class DataFetcher(object):
             return None
 
     @staticmethod
-    def format_price_data(df_data: pd.DataFrame):
+    def format_price_data(df_data: pd.DataFrame) -> pd.DataFrame:
         df_perp_price = df_data.copy(deep=True)
         df_perp_price.columns = ['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time',
                                  'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume',
@@ -37,7 +58,7 @@ class DataFetcher(object):
         df_perp_price = df_perp_price.astype({'open': float, 'high': float, 'low': float, 'close': float})
         return df_perp_price
 
-    def get_price_data(self, symbol: str):
+    def get_price_data(self, symbol: str) -> pd.DataFrame:
         glog.info(f"Start to fetch data for {symbol}")
         df_data = None
         request_params = {
@@ -62,26 +83,26 @@ class DataFetcher(object):
         return df_perp_price
 
     @staticmethod
-    def save_price_data(df_price: pd.DataFrame, symbol: str):
+    def save_price_data(df_price: pd.DataFrame, symbol: str) -> None:
         dump_dir = path_wrapper(data_config['data_dump_dir'])
         dump_path = f"{dump_dir}/{symbol}_price.csv"
         glog.info(f"Save {symbol} price data to {dump_path}")
         df_price.to_csv(dump_path)
 
     @staticmethod
-    def save_return_data(df_return: pd.DataFrame):
+    def save_return_data(df_return: pd.DataFrame) -> None:
         dump_dir = path_wrapper(data_config['data_dump_dir'])
         dump_path = f"{dump_dir}/perp_return.csv"
         glog.info(f"Save perp return data to {dump_path}")
         df_return.to_csv(f"{dump_dir}/perp_return.csv")
 
     @staticmethod
-    def load_return_data():
+    def load_return_data() -> pd.DataFrame:
         data_path = f"{data_config['data_dump_dir']}/perp_return.csv"
         df_return = pd.read_csv(data_path, index_col=0)
         return df_return
 
-    def run(self):
+    def run(self) -> None:
         return_series_list = []
 
         for symbol in data_config["symbol_list"]:

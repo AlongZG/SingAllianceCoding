@@ -1,12 +1,21 @@
 import glog
 import pandas as pd
 
+from typing import Tuple
 from fetch_data import DataFetcher
 from portfolio_optimizer import MarkowitzMeanVarianceOptimizer, RiskParityOptimizer
 from plotter import analyze_performance, plot_asset_weights_table
 
 
-def run_data_fetcher():
+def run_data_fetcher() -> pd.DataFrame:
+    """Run data fetcher to get perp datas.
+
+    Returns
+    -------
+    df_return : pd.DataFrame
+        A dataframe contains assets return time series.
+    """
+
     glog.info(f"Start to run data fetcher")
     data_fetcher = DataFetcher()
     data_fetcher.run()
@@ -14,7 +23,22 @@ def run_data_fetcher():
     return df_return
 
 
-def run_optimizer(df_return: pd.DataFrame):
+def run_optimizer(df_return: pd.DataFrame) -> Tuple[MarkowitzMeanVarianceOptimizer, RiskParityOptimizer]:
+    """Run optimizer to calculate optimized allocation weights.
+
+    Parameters
+    ----------
+    df_return : pd.DataFrame
+        A dataframe contains assets return time series.
+
+    Returns
+    -------
+    mv_optimizer : MarkowitzMeanVarianceOptimizer
+        The MarkowitzMeanVarianceOptimizer class.
+    rp_optimizer : RiskParityOptimizer
+        The RiskParityOptimizer class.
+    """
+
     glog.info(f"Start to run optimizer")
     mv_optimizer = MarkowitzMeanVarianceOptimizer(df_return)
     mv_optimizer.run()
@@ -24,7 +48,12 @@ def run_optimizer(df_return: pd.DataFrame):
     return mv_optimizer, rp_optimizer
 
 
-def main():
+def main() -> None:
+    """Main function of this project, will trigger data fetcher to get perp datas from binance api,
+    and then calculate the allocation weights using MarkowitzMeanVariance & RiskParity methods.
+    All the data and calculated results will be saved locally.
+    """
+
     df_return = run_data_fetcher()
     mv_optimizer, rp_optimizer = run_optimizer(df_return)
 
