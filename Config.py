@@ -12,7 +12,8 @@ data_config = {
 
 # optimizer config
 optimizer_config = {
-    "result_dump_dir": "./result"
+    "result_dump_dir": "./result",
+    "fig_dump_dir": "./picture"
 }
 
 # times
