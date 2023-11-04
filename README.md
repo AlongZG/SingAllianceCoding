@@ -21,9 +21,6 @@ pipenv install -r requirements.txt
 pipenv run python main.py
 ```
 
-2) Using docker
-
-
 <a id="Results"></a>
 # Results
 ### 1) Perp Return Data

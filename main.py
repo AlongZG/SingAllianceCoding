@@ -58,7 +58,7 @@ def main() -> None:
     mv_optimizer, rp_optimizer = run_optimizer(df_return)
 
     # print asset return
-    print(f"------Assets Return------\n {pd.DataFrame(df_return.mean(), columns=['return']).T} \n")
+    print(f"------Assets Mean Return------\n {pd.DataFrame(df_return.mean(), columns=['return']).T} \n")
     print(f"------Assets Covariance------\n {mv_optimizer.df_return.cov()} \n")
 
     # print asset weights
