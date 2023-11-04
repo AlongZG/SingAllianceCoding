@@ -46,7 +46,7 @@ class BaseOptimizer(object):
         fig_asset_return.savefig(f"{fig_dump_dir}/asset_return_{self.name}.png")
         fig_portfolio_returns = plot_portfolio_returns(self.df_return, self.weights_vector, self.name)
         fig_portfolio_returns.savefig(f"{fig_dump_dir}/portfolio_return_{self.name}.png")
-        plt.show()
+        # plt.show()
 
 
 class MarkowitzMeanVarianceOptimizer(BaseOptimizer):

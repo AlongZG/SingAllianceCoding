@@ -75,6 +75,12 @@ class DataFetcher(object):
         glog.info(f"Save perp return data to {dump_path}")
         df_return.to_csv(f"{dump_dir}/perp_return.csv")
 
+    @staticmethod
+    def load_return_data():
+        data_path = f"{data_config['data_dump_dir']}/perp_return.csv"
+        df_return = pd.read_csv(data_path, index_col=0)
+        return df_return
+
     def run(self):
         return_series_list = []
 
