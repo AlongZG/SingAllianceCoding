@@ -7,7 +7,12 @@ data_config = {
     "symbol_list": ["BTC", "ETH", "LTC"],
     "data_fetch_max_trial": 5,
     "s_2_ms_convert_multiplier": 1e3,
-    "data_dump_dir": "./data/"
+    "data_dump_dir": "./data"
+}
+
+# optimizer config
+optimizer_config = {
+    "result_dump_dir": "./result"
 }
 
 # times
