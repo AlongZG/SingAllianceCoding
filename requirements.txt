@@ -4,5 +4,6 @@ numpy~=1.23.5
 requests~=2.29.0
 ratelimit~=2.2.1
 matplotlib~=3.7.1
+cvxpy~=1.4.1
 Riskfolio-Lib~=4.4.2
 pyportfolioopt~=1.5.4
